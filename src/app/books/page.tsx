@@ -17,10 +17,10 @@ const bookTitles = [
 
 export default function BooksPage() {
   return (
-    <div className="pt-page-gutter grid grid-rows-[auto_1fr] max-h-full">
+    <div className="py-page-gutter grid grid-rows-[auto_1fr] max-h-full">
       <PageTitle>Books</PageTitle>
 
-      <ul className="mt-10 max-w-md w-full mx-auto flex flex-col gap-2 overflow-y-auto px-5">
+      <ul className="mt-10 max-w-md w-full mx-auto flex flex-col gap-2 overflow-y-auto px-5 styled-scrollbar">
         {bookTitles.map((title) => (
           <li
             className="border border-gray-300 rounded-md p-2 mb-2 hover:bg-gray-100 hover:text-black duration-500 cursor-pointer"

@@ -15,7 +15,7 @@ const InputField = ({ className, ...props }: ComponentProps<"input">) => (
 
 export default function BookPage() {
   return (
-    <div className="h-full w-full grid grid-rows-[auto_1fr] pt-5">
+    <div className="h-full w-full grid grid-rows-[auto_1fr] pt-page-gutter">
       <h1 className="text-center text-2xl font-bold">Create a New Book</h1>
 
       <div className="flex justify-center items-center">

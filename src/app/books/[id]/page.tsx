@@ -15,19 +15,23 @@ const InputField = ({ className, ...props }: ComponentProps<"input">) => (
 
 export default function BookPage() {
   return (
-    <div className="h-full w-full flex justify-center items-center">
-      <form className="border p-4 rounded">
-        <FieldsContainer>
-          <Label htmlFor="title">Title</Label>
-          <InputField type="text" name="title" />
-        </FieldsContainer>
+    <div className="h-full w-full grid grid-rows-[auto_1fr] pt-5">
+      <h1 className="text-center text-2xl font-bold">Create a New Book</h1>
 
-        <div className="flex justify-center mt-10">
-          <button type="submit" className="bg-blue-500 px-4 py-2 rounded">
-            Add
-          </button>
-        </div>
-      </form>
+      <div className="flex justify-center items-center">
+        <form className="border p-4 rounded">
+          <FieldsContainer>
+            <Label htmlFor="title">Title</Label>
+            <InputField type="text" name="title" />
+          </FieldsContainer>
+
+          <div className="flex justify-center mt-10">
+            <button type="submit" className="bg-blue-500 px-4 py-2 rounded">
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

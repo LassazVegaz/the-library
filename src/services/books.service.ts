@@ -3,8 +3,10 @@ import prisma from "@/lib/prisma";
 
 type UpdateBook = Partial<Pick<Book, "title">>;
 
+type CreateBook = Pick<Book, "title">;
+
 class BooksService {
-  async create(book: Book) {
+  async create(book: CreateBook) {
     return await prisma.book.create({ data: book });
   }
 

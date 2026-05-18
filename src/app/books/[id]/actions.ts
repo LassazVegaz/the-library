@@ -1,5 +1,6 @@
 "use server";
 import booksService from "@/services/books.service";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import * as z from "zod";
 
@@ -23,6 +24,7 @@ export const createAction = async (form: FormData) => {
 
     try {
       const created = await booksService.create(validatedFields.data);
+      revalidatePath("/books");
       bookId = created.id;
     } catch (error) {
       console.error("An error occurred while creating the book:", error);
@@ -41,6 +43,7 @@ export const updateAction = async (id: number, form: FormData) => {
   if (validatedFields.success) {
     try {
       await booksService.update(id, validatedFields.data);
+      revalidatePath("/books");
     } catch (error) {
       console.error("An error occurred while updating the book:", error);
       return serverErrorResponse;
@@ -55,6 +58,7 @@ export const deleteAction = async (id: number) => {
 
   try {
     await booksService.delete(id);
+    revalidatePath("/books");
     deleted = true;
   } catch (error) {
     console.error("An error occurred while deleting the book:", error);

@@ -11,6 +11,12 @@ export default async function BooksPage() {
       <div className="py-page-gutter grid grid-rows-[auto_1fr] max-h-full">
         <PageTitle>Books</PageTitle>
 
+        {books.length === 0 && (
+          <p className="text-center text-gray-500 mt-10">
+            No books found. Click the + button to add a new book.
+          </p>
+        )}
+
         <ul className="mt-10 max-w-md w-full mx-auto flex flex-col gap-4 overflow-y-auto px-5 styled-scrollbar">
           {books.map((b) => (
             <li key={b.id}>

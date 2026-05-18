@@ -14,10 +14,16 @@ const InputField = ({ className, ...props }: ComponentProps<"input">) => (
   <input className={twMerge("border p-2 rounded", className)} {...props} />
 );
 
-export default function BookPage() {
+export default async function BookPage(
+  props: Readonly<PageProps<"/books/[id]">>,
+) {
+  const { id } = await props.params;
+
+  const isNew = id.toLowerCase() === "new";
+
   return (
     <div className="h-full w-full grid grid-rows-[auto_1fr] pt-page-gutter">
-      <PageTitle>Create a New Book</PageTitle>
+      <PageTitle>{isNew ? "Create a New Book" : "Update Book"}</PageTitle>
 
       <div className="flex justify-center items-center">
         <form className="border p-4 rounded">
@@ -28,7 +34,7 @@ export default function BookPage() {
 
           <div className="flex justify-center mt-10">
             <button type="submit" className="bg-blue-500 px-4 py-2 rounded">
-              Add
+              {isNew ? "Add" : "Update"}
             </button>
           </div>
         </form>

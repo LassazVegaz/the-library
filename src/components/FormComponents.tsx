@@ -29,7 +29,7 @@ type ButtonProps = ComponentProps<"button"> & {
 export const Button = ({ className, variant, ...props }: ButtonProps) => (
   <button
     className={twMerge(
-      "border px-4 py-2 rounded cursor-pointer duration-300",
+      "border px-4 py-2 rounded cursor-pointer duration-300 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent",
       variant === "red" && "border-red-500 hover:bg-red-500",
       variant === "gray" && "border-gray-500 hover:bg-gray-500",
       variant === "blue" && "border-blue-500 hover:bg-blue-500",

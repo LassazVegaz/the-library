@@ -29,6 +29,11 @@ class UsersService {
     return user ? this.toSafeUser(user) : null;
   }
 
+  async getAll(): Promise<SafeUser[]> {
+    const users = await prisma.user.findMany();
+    return users.map(this.toSafeUser);
+  }
+
   async update(id: number, data: UpdateUser): Promise<SafeUser> {
     const updatedUser = await prisma.user.update({ where: { id }, data });
     return this.toSafeUser(updatedUser);

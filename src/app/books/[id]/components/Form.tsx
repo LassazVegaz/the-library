@@ -19,7 +19,7 @@ const InputField = ({ className, ...props }: ComponentProps<"input">) => (
   <input className={twMerge("border p-2 rounded", className)} {...props} />
 );
 
-const handleError = (error: unknown) => {
+const handleServerError = (error: unknown) => {
   if (
     typeof error === "object" &&
     error !== null &&
@@ -33,14 +33,26 @@ const handleError = (error: unknown) => {
   }
 };
 
+const handleFormActionErrors = (
+  errors: Record<string, string[]> | { serverError: boolean },
+) => {
+  if ("serverError" in errors && errors.serverError === true) {
+    alert("An error occurred while submitting the form. Please try again.");
+  } else {
+    const firstMessage = Object.values(errors)[0]?.[0];
+    if (firstMessage) alert(firstMessage);
+  }
+};
+
 export default function Form(props: Readonly<FormProps>) {
   const onSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     try {
-      await createAction(new FormData(e.currentTarget));
+      const res = await createAction(new FormData(e.currentTarget));
+      handleFormActionErrors(res.errors);
     } catch (error) {
-      handleError(error);
+      handleServerError(error);
     }
   };
 

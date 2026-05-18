@@ -1,26 +1,19 @@
 "use client";
-import { ComponentProps, MouseEventHandler, SubmitEventHandler } from "react";
-import { twMerge } from "tailwind-merge";
+import { MouseEventHandler, SubmitEventHandler } from "react";
 import { Book } from "@/generated/prisma/browser";
 import { createAction, deleteAction, updateAction } from "../actions";
-import Link from "next/link";
+import {
+  Button,
+  FieldsContainer,
+  InputField,
+  Label,
+  LinkButton,
+} from "@/components/FormComponents";
 
 type FormProps = {
   isNew: boolean;
   book: Book | null;
 };
-
-const FieldsContainer = ({ className, ...props }: ComponentProps<"div">) => (
-  <div className={twMerge("flex items-center", className)} {...props} />
-);
-
-const Label = ({ className, ...props }: ComponentProps<"label">) => (
-  <label className={twMerge("w-37.5", className)} {...props} /> // NOSONAR
-);
-
-const InputField = ({ className, ...props }: ComponentProps<"input">) => (
-  <input className={twMerge("border p-2 rounded", className)} {...props} />
-);
 
 const handleServerError = (error: unknown) => {
   if (
@@ -88,16 +81,16 @@ export default function Form(props: Readonly<FormProps>) {
       </FieldsContainer>
 
       <div className="flex justify-between mt-10">
-        <Link href="/books" className="bg-gray-500 px-4 py-2 rounded">
+        <LinkButton variant="gray" href="/books">
           Cancel
-        </Link>
-        <button type="submit" className="bg-blue-500 px-4 py-2 rounded">
+        </LinkButton>
+        <Button variant="blue" type="submit">
           {props.isNew ? "Add" : "Update"}
-        </button>
+        </Button>
         {!props.isNew && (
-          <button onClick={onDelete} className="bg-red-500 px-4 py-2 rounded">
+          <Button variant="red" onClick={onDelete}>
             Delete
-          </button>
+          </Button>
         )}
       </div>
     </form>

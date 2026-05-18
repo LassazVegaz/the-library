@@ -75,10 +75,14 @@ export default function Form(props: Readonly<FormProps>) {
         />
       </FieldsContainer>
 
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-between mt-10">
+        <button className="bg-gray-500 px-4 py-2 rounded">Cancel</button>
         <button type="submit" className="bg-blue-500 px-4 py-2 rounded">
           {props.isNew ? "Add" : "Update"}
         </button>
+        {!props.isNew && (
+          <button className="bg-red-500 px-4 py-2 rounded">Delete</button>
+        )}
       </div>
     </form>
   );

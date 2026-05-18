@@ -1,5 +1,10 @@
 import Link from "next/link";
 
 export default function Home() {
-  return <Link href="/books">Go to Books</Link>;
+  return (
+    <>
+      <Link href="/books">Go to Books</Link> <br />
+      <Link href="/users">Go to Users</Link>
+    </>
+  );
 }

@@ -41,7 +41,7 @@ const handleActionErrors = (
   if ("serverError" in error) {
     alert("An error occurred while submitting the form. Please try again.");
   } else {
-    const firstMessage = Object.values(error)[0]?.[0];
+    const firstMessage = Object.values(error.formErrors)[0]?.[0];
     if (firstMessage) alert(firstMessage);
   }
 };

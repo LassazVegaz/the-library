@@ -1,5 +1,5 @@
 "use client";
-import { MouseEventHandler, SubmitEventHandler } from "react";
+import { MouseEventHandler, SubmitEventHandler, useState } from "react";
 import { Book } from "@/generated/prisma/browser";
 import { createAction, deleteAction, updateAction } from "../actions";
 import {
@@ -41,8 +41,11 @@ const handleActionErrors = (
 };
 
 export default function Form(props: Readonly<FormProps>) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const formData = new FormData(e.currentTarget);
@@ -54,17 +57,22 @@ export default function Form(props: Readonly<FormProps>) {
       if (res) handleActionErrors(res);
     } catch (error) {
       handleServerError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const onDelete: MouseEventHandler<HTMLButtonElement> = async () => {
     if (!props.book) return;
 
+    setIsLoading(true);
     try {
       const res = await deleteAction(props.book.id);
       if (res) handleActionErrors(res);
     } catch (error) {
       handleServerError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -84,11 +92,16 @@ export default function Form(props: Readonly<FormProps>) {
         <LinkButton variant="gray" href="/books">
           Cancel
         </LinkButton>
-        <Button variant="blue" type="submit">
+        <Button variant="blue" type="submit" disabled={isLoading}>
           {props.isNew ? "Add" : "Update"}
         </Button>
         {!props.isNew && (
-          <Button variant="red" type="button" onClick={onDelete}>
+          <Button
+            variant="red"
+            type="button"
+            onClick={onDelete}
+            disabled={isLoading}
+          >
             Delete
           </Button>
         )}

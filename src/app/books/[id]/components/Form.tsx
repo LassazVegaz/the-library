@@ -18,6 +18,20 @@ const InputField = ({ className, ...props }: ComponentProps<"input">) => (
   <input className={twMerge("border p-2 rounded", className)} {...props} />
 );
 
+const handleError = (error: unknown) => {
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    error.message === "NEXT_REDIRECT"
+  ) {
+    throw error; // Rethrow the redirect error to be handled by Next.js
+  } else {
+    console.error("An error occurred while submitting the form:", error);
+    alert("An error occurred while submitting the form. Please try again.");
+  }
+};
+
 export default function Form(props: Readonly<FormProps>) {
   return (
     <form className="border p-4 rounded">

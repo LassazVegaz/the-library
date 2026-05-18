@@ -1,8 +1,9 @@
 "use client";
-import { ComponentProps, SubmitEventHandler } from "react";
+import { ComponentProps, MouseEventHandler, SubmitEventHandler } from "react";
 import { twMerge } from "tailwind-merge";
+import { useRouter } from "next/navigation";
 import { Book } from "@/generated/prisma/browser";
-import { createAction, updateAction } from "../actions";
+import { createAction, deleteAction, updateAction } from "../actions";
 
 type FormProps = {
   isNew: boolean;
@@ -47,6 +48,8 @@ const handleActionErrors = (
 };
 
 export default function Form(props: Readonly<FormProps>) {
+  const router = useRouter();
+
   const onSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
@@ -57,6 +60,17 @@ export default function Form(props: Readonly<FormProps>) {
           ? createAction(formData)
           : updateAction(props.book.id, formData);
       const res = await promise;
+      if (res) handleActionErrors(res);
+    } catch (error) {
+      handleServerError(error);
+    }
+  };
+
+  const onDelete: MouseEventHandler<HTMLButtonElement> = async () => {
+    if (!props.book) return;
+
+    try {
+      const res = await deleteAction(props.book.id);
       if (res) handleActionErrors(res);
     } catch (error) {
       handleServerError(error);
@@ -76,12 +90,19 @@ export default function Form(props: Readonly<FormProps>) {
       </FieldsContainer>
 
       <div className="flex justify-between mt-10">
-        <button className="bg-gray-500 px-4 py-2 rounded">Cancel</button>
+        <button
+          onClick={() => router.push("/books")}
+          className="bg-gray-500 px-4 py-2 rounded"
+        >
+          Cancel
+        </button>
         <button type="submit" className="bg-blue-500 px-4 py-2 rounded">
           {props.isNew ? "Add" : "Update"}
         </button>
         {!props.isNew && (
-          <button className="bg-red-500 px-4 py-2 rounded">Delete</button>
+          <button onClick={onDelete} className="bg-red-500 px-4 py-2 rounded">
+            Delete
+          </button>
         )}
       </div>
     </form>

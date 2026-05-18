@@ -49,3 +49,17 @@ export const updateAction = async (id: number, form: FormData) => {
     return buildZodErrorResponse(validatedFields.error);
   }
 };
+
+export const deleteAction = async (id: number) => {
+  let deleted = false;
+
+  try {
+    await booksService.delete(id);
+    deleted = true;
+  } catch (error) {
+    console.error("An error occurred while deleting the book:", error);
+    return serverErrorResponse;
+  }
+
+  if (deleted) redirect("/books");
+};

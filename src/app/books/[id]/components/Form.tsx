@@ -1,10 +1,12 @@
 "use client";
 import { ComponentProps, SubmitEventHandler } from "react";
 import { twMerge } from "tailwind-merge";
+import { Book } from "@/generated/prisma/browser";
 import { createAction } from "../actions";
 
 type FormProps = {
   isNew: boolean;
+  book: Book | null;
 };
 
 const FieldsContainer = ({ className, ...props }: ComponentProps<"div">) => (
@@ -60,7 +62,12 @@ export default function Form(props: Readonly<FormProps>) {
     <form className="border p-4 rounded" onSubmit={onSubmit}>
       <FieldsContainer>
         <Label htmlFor="title">Title</Label>
-        <InputField type="text" name="title" required />
+        <InputField
+          type="text"
+          name="title"
+          required
+          defaultValue={props.book?.title || ""}
+        />
       </FieldsContainer>
 
       <div className="flex justify-center mt-10">

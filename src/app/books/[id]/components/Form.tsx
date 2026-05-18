@@ -1,9 +1,9 @@
 "use client";
 import { ComponentProps, MouseEventHandler, SubmitEventHandler } from "react";
 import { twMerge } from "tailwind-merge";
-import { useRouter } from "next/navigation";
 import { Book } from "@/generated/prisma/browser";
 import { createAction, deleteAction, updateAction } from "../actions";
+import Link from "next/link";
 
 type FormProps = {
   isNew: boolean;
@@ -48,8 +48,6 @@ const handleActionErrors = (
 };
 
 export default function Form(props: Readonly<FormProps>) {
-  const router = useRouter();
-
   const onSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
@@ -90,12 +88,9 @@ export default function Form(props: Readonly<FormProps>) {
       </FieldsContainer>
 
       <div className="flex justify-between mt-10">
-        <button
-          onClick={() => router.push("/books")}
-          className="bg-gray-500 px-4 py-2 rounded"
-        >
+        <Link href="/books" className="bg-gray-500 px-4 py-2 rounded">
           Cancel
-        </button>
+        </Link>
         <button type="submit" className="bg-blue-500 px-4 py-2 rounded">
           {props.isNew ? "Add" : "Update"}
         </button>

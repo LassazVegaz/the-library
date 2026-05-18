@@ -41,11 +41,13 @@ export const Button = ({ className, variant, ...props }: ButtonProps) => (
 
 type LinkButtonProps = ComponentProps<typeof Link> & {
   variant?: ButtonVariants;
+  disabled?: boolean;
 };
 
 export const LinkButton = ({
   className,
   variant,
+  disabled,
   ...props
 }: LinkButtonProps) => (
   <Link
@@ -54,6 +56,7 @@ export const LinkButton = ({
       variant === "red" && "border-red-500 hover:bg-red-500",
       variant === "gray" && "border-gray-500 hover:bg-gray-500",
       variant === "blue" && "border-blue-500 hover:bg-blue-500",
+      disabled && "cursor-not-allowed opacity-50 hover:bg-transparent",
       className,
     )}
     {...props}

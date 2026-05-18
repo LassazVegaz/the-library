@@ -89,7 +89,7 @@ export default function Form(props: Readonly<FormProps>) {
       </FieldsContainer>
 
       <div className="flex justify-between mt-10">
-        <LinkButton variant="gray" href="/books">
+        <LinkButton variant="gray" href="/books" disabled={isLoading}>
           Cancel
         </LinkButton>
         <Button variant="blue" type="submit" disabled={isLoading}>

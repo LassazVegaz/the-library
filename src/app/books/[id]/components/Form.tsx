@@ -53,7 +53,7 @@ export default function Form(props: Readonly<FormProps>) {
     try {
       const formData = new FormData(e.currentTarget);
       const promise =
-        props.book?.id === undefined
+        props.book === null
           ? createAction(formData)
           : updateAction(props.book.id, formData);
       const res = await promise;

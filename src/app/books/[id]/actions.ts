@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import * as z from "zod";
 
 const createBookSchema = z.object({
-  title: z.string().min(1, "Title is required"),
+  title: z.string().trim().min(1, "Title is required"),
 });
 
 export const createAction = async (form: FormData) => {

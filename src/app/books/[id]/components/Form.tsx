@@ -1,6 +1,7 @@
 "use client";
-import { ComponentProps } from "react";
+import { ComponentProps, SubmitEventHandler } from "react";
 import { twMerge } from "tailwind-merge";
+import { createAction } from "../actions";
 
 type FormProps = {
   isNew: boolean;
@@ -33,11 +34,21 @@ const handleError = (error: unknown) => {
 };
 
 export default function Form(props: Readonly<FormProps>) {
+  const onSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+
+    try {
+      await createAction(new FormData(e.currentTarget));
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
   return (
-    <form className="border p-4 rounded">
+    <form className="border p-4 rounded" onSubmit={onSubmit}>
       <FieldsContainer>
         <Label htmlFor="title">Title</Label>
-        <InputField type="text" name="title" />
+        <InputField type="text" name="title" required />
       </FieldsContainer>
 
       <div className="flex justify-center mt-10">

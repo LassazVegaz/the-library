@@ -2,7 +2,7 @@
 import { ComponentProps, SubmitEventHandler } from "react";
 import { twMerge } from "tailwind-merge";
 import { Book } from "@/generated/prisma/browser";
-import { createAction } from "../actions";
+import { createAction, updateAction } from "../actions";
 
 type FormProps = {
   isNew: boolean;
@@ -35,13 +35,13 @@ const handleServerError = (error: unknown) => {
   }
 };
 
-const handleFormActionErrors = (
-  errors: Record<string, string[]> | { serverError: boolean },
+const handleActionErrors = (
+  error: { formErrors: Record<string, string[]> } | { serverError: true },
 ) => {
-  if ("serverError" in errors && errors.serverError === true) {
+  if ("serverError" in error) {
     alert("An error occurred while submitting the form. Please try again.");
   } else {
-    const firstMessage = Object.values(errors)[0]?.[0];
+    const firstMessage = Object.values(error)[0]?.[0];
     if (firstMessage) alert(firstMessage);
   }
 };
@@ -51,8 +51,13 @@ export default function Form(props: Readonly<FormProps>) {
     e.preventDefault();
 
     try {
-      const res = await createAction(new FormData(e.currentTarget));
-      handleFormActionErrors(res.errors);
+      const formData = new FormData(e.currentTarget);
+      const promise =
+        props.book?.id === undefined
+          ? createAction(formData)
+          : updateAction(props.book.id, formData);
+      const res = await promise;
+      if (res) handleActionErrors(res);
     } catch (error) {
       handleServerError(error);
     }

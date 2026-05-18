@@ -88,7 +88,7 @@ export default function Form(props: Readonly<FormProps>) {
           {props.isNew ? "Add" : "Update"}
         </Button>
         {!props.isNew && (
-          <Button variant="red" onClick={onDelete}>
+          <Button variant="red" type="button" onClick={onDelete}>
             Delete
           </Button>
         )}

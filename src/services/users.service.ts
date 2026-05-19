@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { User } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import { CreateUser, SafeUser, UpdateUser } from "@/types/user.type";
+import ROLES from "@/constants/roles.constants";
 
 class UsersService {
   async create(user: CreateUser): Promise<SafeUser> {
@@ -9,7 +10,9 @@ class UsersService {
     if (Number.isNaN(saltRounds)) throw new Error("Invalid SALT_ROUNDS value");
 
     user.password = await bcrypt.hash(user.password, saltRounds);
-    const createdUser = await prisma.user.create({ data: user });
+    const createdUser = await prisma.user.create({
+      data: { ...user, role: ROLES.USER },
+    });
 
     return this.toSafeUser(createdUser);
   }
@@ -50,7 +53,7 @@ class UsersService {
 
   private toSafeUser(user: User): SafeUser {
     const { password: _, ...safeUser } = user;
-    return safeUser;
+    return safeUser as SafeUser;
   }
 }
 

@@ -1,8 +1,12 @@
 import { LinkedListItem, ListContainer } from "@/components/List";
 import PageTitle from "@/components/PageTitle";
+import authService from "@/services/auth.service";
 import usersService from "@/services/users.service";
+import { notFound } from "next/navigation";
 
 export default async function UsersPage() {
+  if (!(await authService.is("admin"))) notFound();
+
   const users = await usersService.getAll();
 
   return (

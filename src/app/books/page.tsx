@@ -2,8 +2,12 @@ import PageTitle from "@/components/PageTitle";
 import FloatingActionButton from "@/components/FloatingActionButton";
 import booksService from "@/services/books.service";
 import { LinkedListItem, ListContainer } from "@/components/List";
+import authService from "@/services/auth.service";
+import { notFound } from "next/navigation";
 
 export default async function BooksPage() {
+  if (!(await authService.is("admin"))) notFound();
+
   const books = await booksService.getAll();
 
   return (

@@ -19,7 +19,7 @@ export default async function FloatingMenu() {
           Users
         </Link>
       )}
-      <Link href={`/user/${auth.id}`} className={styles.menuItem}>
+      <Link href={`/users/${auth.id}`} className={styles.menuItem}>
         Profile
       </Link>
       <SignoutButton />

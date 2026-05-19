@@ -13,6 +13,7 @@ import {
 type FormProps = {
   isNew: boolean;
   book: Book | null;
+  isAdmin: boolean;
 };
 
 const handleServerError = (error: unknown) => {
@@ -92,18 +93,23 @@ export default function Form(props: Readonly<FormProps>) {
         <LinkButton variant="gray" href="/books" disabled={isLoading}>
           Cancel
         </LinkButton>
-        <Button variant="blue" type="submit" disabled={isLoading}>
-          {props.isNew ? "Add" : "Update"}
-        </Button>
-        {!props.isNew && (
-          <Button
-            variant="red"
-            type="button"
-            onClick={onDelete}
-            disabled={isLoading}
-          >
-            Delete
-          </Button>
+
+        {props.isAdmin && (
+          <>
+            <Button variant="blue" type="submit" disabled={isLoading}>
+              {props.isNew ? "Add" : "Update"}
+            </Button>
+            {!props.isNew && (
+              <Button
+                variant="red"
+                type="button"
+                onClick={onDelete}
+                disabled={isLoading}
+              >
+                Delete
+              </Button>
+            )}
+          </>
         )}
       </div>
     </form>

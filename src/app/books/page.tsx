@@ -6,7 +6,8 @@ import authService from "@/services/auth.service";
 import { notFound } from "next/navigation";
 
 export default async function BooksPage() {
-  if (!(await authService.getAuth())) notFound();
+  const auth = await authService.getAuth();
+  if (!auth) notFound();
 
   const books = await booksService.getAll();
 
@@ -30,7 +31,9 @@ export default async function BooksPage() {
         </ListContainer>
       </div>
 
-      <FloatingActionButton href="books/new">+</FloatingActionButton>
+      {auth.role === "admin" && (
+        <FloatingActionButton href="books/new">+</FloatingActionButton>
+      )}
     </>
   );
 }

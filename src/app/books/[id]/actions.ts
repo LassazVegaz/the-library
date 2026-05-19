@@ -1,8 +1,9 @@
 "use server";
 import { buildZodErrorResponse, serverErrorResponse } from "@/lib/responses";
+import authService from "@/services/auth.service";
 import booksService from "@/services/books.service";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 import * as z from "zod";
 
 const schema = z.object({
@@ -10,6 +11,8 @@ const schema = z.object({
 });
 
 export const createAction = async (form: FormData) => {
+  if (!(await authService.is("admin"))) unauthorized();
+
   const validatedFields = schema.safeParse(Object.fromEntries(form.entries()));
 
   if (validatedFields.success) {
@@ -31,6 +34,8 @@ export const createAction = async (form: FormData) => {
 };
 
 export const updateAction = async (id: number, form: FormData) => {
+  if (!(await authService.is("admin"))) unauthorized();
+
   const validatedFields = schema.safeParse(Object.fromEntries(form.entries()));
 
   if (validatedFields.success) {
@@ -47,6 +52,8 @@ export const updateAction = async (id: number, form: FormData) => {
 };
 
 export const deleteAction = async (id: number) => {
+  if (!(await authService.is("admin"))) unauthorized();
+
   let deleted = false;
 
   try {

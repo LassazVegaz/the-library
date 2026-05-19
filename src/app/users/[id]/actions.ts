@@ -2,10 +2,13 @@
 import { buildZodErrorResponse, serverErrorResponse } from "@/lib/responses";
 import usersService from "@/services/users.service";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 import { createUserSchema, updateUserSchema } from "./schemas";
+import authService from "@/services/auth.service";
 
 export const createAction = async (form: FormData) => {
+  if (await authService.getAuth()) unauthorized();
+
   const validatedFields = createUserSchema.safeParse(
     Object.fromEntries(form.entries()),
   );
@@ -29,6 +32,8 @@ export const createAction = async (form: FormData) => {
 };
 
 export const updateAction = async (id: number, form: FormData) => {
+  if (!(await authService.is(id))) unauthorized();
+
   const validatedFields = updateUserSchema.safeParse(
     Object.fromEntries(form.entries()),
   );
@@ -47,6 +52,8 @@ export const updateAction = async (id: number, form: FormData) => {
 };
 
 export const deleteAction = async (id: number) => {
+  if (!(await authService.is(id))) unauthorized();
+
   let deleted = false;
 
   try {

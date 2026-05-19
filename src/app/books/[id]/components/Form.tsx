@@ -86,6 +86,7 @@ export default function Form(props: Readonly<FormProps>) {
           name="title"
           required
           defaultValue={props.book?.title || ""}
+          readOnly={!props.isAdmin}
         />
       </FieldsContainer>
 

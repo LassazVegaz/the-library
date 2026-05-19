@@ -1,4 +1,5 @@
 "use server";
+import { buildZodErrorResponse, serverErrorResponse } from "@/lib/responses";
 import booksService from "@/services/books.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -7,14 +8,6 @@ import * as z from "zod";
 const schema = z.object({
   title: z.string().trim().min(1, "Title is required"),
 });
-
-const serverErrorResponse = { serverError: true } as const;
-
-const buildZodErrorResponse = <T>(error: z.ZodError<T>) => {
-  return {
-    formErrors: z.flattenError(error).fieldErrors,
-  };
-};
 
 export const createAction = async (form: FormData) => {
   const validatedFields = schema.safeParse(Object.fromEntries(form.entries()));

@@ -1,7 +1,5 @@
-import ROLES from "@/constants/roles.constants";
 import { User } from "@/generated/prisma/client";
-
-type Role = (typeof ROLES)[keyof typeof ROLES];
+import Role from "./role.type";
 
 export type SafeUser = Omit<User, "password" | "role"> & { role: Role };
 

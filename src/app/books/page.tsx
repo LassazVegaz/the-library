@@ -12,7 +12,7 @@ export default async function BooksPage() {
         <PageTitle>Books</PageTitle>
 
         {books.length === 0 && (
-          <p className="text-center text-gray-500 mt-10">
+          <p className="text-center text-dimmed mt-10">
             No books found. Click the + button to add a new book.
           </p>
         )}

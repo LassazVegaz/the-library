@@ -10,7 +10,7 @@ export default async function UsersPage() {
       <PageTitle>Users</PageTitle>
 
       {users.length === 0 && (
-        <p className="text-center text-gray-500 mt-10">No users found</p>
+        <p className="text-center text-dimmed mt-10">No users found</p>
       )}
 
       <ListContainer className="mt-10 max-w-md w-full mx-auto">

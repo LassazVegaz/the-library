@@ -6,7 +6,7 @@ import authService from "@/services/auth.service";
 import { notFound } from "next/navigation";
 
 export default async function BooksPage() {
-  if (!(await authService.is("admin"))) notFound();
+  if (!(await authService.getAuth())) notFound();
 
   const books = await booksService.getAll();
 

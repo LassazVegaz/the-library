@@ -18,7 +18,7 @@ export default async function UserPage(
   let isOwner: boolean | undefined = undefined;
 
   if (isNew && auth) notFound();
-  else {
+  else if (!isNew) {
     if (!auth) notFound();
 
     const userId = Number(id);

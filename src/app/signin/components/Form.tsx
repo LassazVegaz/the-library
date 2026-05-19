@@ -23,7 +23,8 @@ export default function Form() {
     try {
       const formData = new FormData(e.currentTarget);
       const res = await signInAction(formData);
-      if (res === false) alert("Invalid email or password. Please try again.");
+      if (res === false)
+        alert("Incorrect email or password. Please try again.");
       else handleActionErrors(res);
     } catch (error) {
       handleServerError(error);

@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import usersService from "./users.service";
 import { cookies } from "next/headers";
 import JwtPayload from "@/types/jwt-payload.type";
+import Role from "@/types/role.type";
 
 class AuthService {
   private readonly cookieName: string;
@@ -37,6 +38,19 @@ class AuthService {
     if (!key) throw new Error("JWT_SECRET is not defined");
 
     return jwt.verify(token, key) as JwtPayload;
+  }
+
+  is(role: Role): Promise<boolean>;
+  is(id: number): Promise<boolean>;
+  async is(roleOrId: Role | number): Promise<boolean> {
+    const auth = await this.getAuth();
+    if (!auth) return false;
+
+    if (typeof roleOrId === "string") {
+      return auth.role === roleOrId;
+    }
+
+    return auth.id === roleOrId;
   }
 
   async signOut() {

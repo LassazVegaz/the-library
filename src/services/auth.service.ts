@@ -27,6 +27,23 @@ class AuthService {
     return true;
   }
 
+  async getAuth(): Promise<JwtPayload | null> {
+    const cookieStore = await cookies();
+
+    const token = cookieStore.get(this.cookieName)?.value;
+    if (!token) return null;
+
+    const key = process.env.JWT_SECRET;
+    if (!key) throw new Error("JWT_SECRET is not defined");
+
+    return jwt.verify(token, key) as JwtPayload;
+  }
+
+  async signOut() {
+    const cookieStore = await cookies();
+    cookieStore.delete(this.cookieName);
+  }
+
   private generateToken(payload: JwtPayload, expiresIn: number): string {
     const key = process.env.JWT_SECRET;
     if (!key) throw new Error("JWT_SECRET is not defined");

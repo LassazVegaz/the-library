@@ -17,8 +17,9 @@ export default async function UserPage(
   let user: SafeUser | null = null;
   let isOwner: boolean | undefined = undefined;
 
-  if (isNew && auth) notFound();
-  else if (!isNew) {
+  if (isNew) {
+    if (auth) notFound();
+  } else {
     if (!auth) notFound();
 
     const userId = Number(id);

@@ -70,7 +70,7 @@ export default function Form(props: Readonly<FormProps>) {
           name="name"
           required
           defaultValue={props.user?.name || ""}
-          readOnly={props.role === "admin"}
+          readOnly={!props.isOwner || !props.isNew}
         />
       </FieldsContainer>
       <FieldsContainer>

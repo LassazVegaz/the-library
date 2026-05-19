@@ -38,10 +38,14 @@ class UsersService {
     await prisma.user.delete({ where: { id } });
   }
 
-  async verifyPassword(email: string, password: string): Promise<boolean> {
+  async verifyPassword(
+    email: string,
+    password: string,
+  ): Promise<SafeUser | null> {
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) return false;
-    return bcrypt.compare(password, user.password);
+    if (!user) return null;
+    const isMatch = await bcrypt.compare(password, user.password);
+    return isMatch ? this.toSafeUser(user) : null;
   }
 
   private toSafeUser(user: User): SafeUser {

@@ -1,0 +1,26 @@
+.floatingMenu {
+  transition-duration: 500ms;
+}
+
+.floatingMenu .menuItem {
+  display: none;
+  cursor: pointer;
+}
+
+.floatingMenu:hover .menuItem {
+  display: block;
+}
+
+.floatingMenu .icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bolder;
+}
+
+.floatingMenu:hover .icon {
+  display: none;
+}

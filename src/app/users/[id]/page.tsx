@@ -3,6 +3,7 @@ import usersService from "@/services/users.service";
 import { SafeUser } from "@/types/user.type";
 import { notFound } from "next/navigation";
 import Form from "./components/Form";
+import authService from "@/services/auth.service";
 
 export default async function UserPage(
   props: Readonly<PageProps<"/users/[id]">>,
@@ -10,6 +11,10 @@ export default async function UserPage(
   const { id } = await props.params;
 
   const isNew = id.toLowerCase() === "new";
+
+  const auth = await authService.getAuth();
+
+  if (isNew && auth) notFound();
 
   let user: SafeUser | null = null;
 

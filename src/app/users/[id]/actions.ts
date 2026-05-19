@@ -11,18 +11,18 @@ export const createAction = async (form: FormData) => {
   );
 
   if (validatedFields.success) {
-    let userId: number | null = null;
+    let created = false;
 
     try {
-      const created = await usersService.create(validatedFields.data);
+      await usersService.create(validatedFields.data);
       revalidatePath("/users");
-      userId = created.id;
+      created = true;
     } catch (error) {
       console.error("An error occurred while creating the user:", error);
       return serverErrorResponse;
     }
 
-    redirect(`/users/${userId}`);
+    if (created) redirect("/signin");
   } else {
     return buildZodErrorResponse(validatedFields.error);
   }

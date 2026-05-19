@@ -3,7 +3,6 @@ import {
   FieldsContainer,
   Label,
   InputField,
-  LinkButton,
   Button,
 } from "@/components/FormComponents";
 import {
@@ -14,11 +13,13 @@ import { SafeUser } from "@/types/user.type";
 import { MouseEventHandler, SubmitEventHandler, useState } from "react";
 import { createAction, deleteAction, updateAction } from "../actions";
 import Role from "@/types/role.type";
+import Link from "next/link";
 
 type FormProps = {
   isNew: boolean;
   user: SafeUser | null;
   role?: Role;
+  isOwner?: boolean;
 };
 
 export default function Form(props: Readonly<FormProps>) {
@@ -95,23 +96,36 @@ export default function Form(props: Readonly<FormProps>) {
         </>
       )}
 
-      <div className="flex justify-between mt-10">
-        <LinkButton variant="gray" href="/users" disabled={isLoading}>
-          Cancel
-        </LinkButton>
-        <Button variant="blue" type="submit" disabled={isLoading}>
-          {props.isNew ? "Create Account" : "Update"}
-        </Button>
-      </div>
-      {!props.isNew && (
-        <Button
-          variant="red"
-          type="button"
-          onClick={onDelete}
-          disabled={isLoading}
-        >
-          Delete Account
-        </Button>
+      <div className="h-10" />
+
+      {props.isNew && (
+        <>
+          <Button variant="blue" type="submit" disabled={isLoading}>
+            Create Account
+          </Button>
+          <p className="text-sm text-center">
+            Already have an account?{" "}
+            <Link href="/signin" className="text-blue-500 hover:underline">
+              Sign in
+            </Link>
+          </p>
+        </>
+      )}
+
+      {props.isOwner && (
+        <>
+          <Button variant="blue" type="submit" disabled={isLoading}>
+            Update Account
+          </Button>
+          <Button
+            variant="red"
+            type="button"
+            onClick={onDelete}
+            disabled={isLoading}
+          >
+            Delete Account
+          </Button>
+        </>
       )}
     </form>
   );

@@ -15,14 +15,20 @@ export default async function UserPage(
   const auth = await authService.getAuth();
 
   let user: SafeUser | null = null;
+  let isOwner: boolean | undefined = undefined;
 
   if (isNew && auth) notFound();
-  else if (auth) {
+  else {
+    if (!auth) notFound();
+
     const userId = Number(id);
-    if (Number.isNaN(userId) || (auth.role === "user" && auth.id !== userId))
-      notFound();
+    if (Number.isNaN(userId)) notFound();
+
     user = await usersService.findById(userId);
     if (!user) notFound();
+
+    isOwner = auth.id === user.id;
+    if (!isOwner && auth.role !== "admin") notFound();
   }
 
   return (
@@ -32,7 +38,7 @@ export default async function UserPage(
       </PageTitle>
 
       <div className="flex justify-center items-center">
-        <Form isNew={isNew} user={user} />
+        <Form isNew={isNew} user={user} isOwner={isOwner} />
       </div>
     </div>
   );

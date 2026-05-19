@@ -18,7 +18,7 @@ class AuthService {
 
     const expiresIn = this.getExpiresInSeconds();
 
-    const payload: JwtPayload = { id: verified.id };
+    const payload: JwtPayload = { id: verified.id, role: verified.role };
     const token = this.generateToken(payload, expiresIn);
 
     // Add a small buffer to ensure the cookie expires after the token

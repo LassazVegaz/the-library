@@ -9,7 +9,7 @@ import authService from "@/services/auth.service";
 export const createAction = async (form: FormData) => {
   if (await authService.getAuth()) unauthorized();
 
-  const validatedFields = createUserSchema.safeParse(
+  const validatedFields = await createUserSchema.safeParseAsync(
     Object.fromEntries(form.entries()),
   );
 

@@ -1,5 +1,6 @@
 import * as z from "zod";
 import { CreateUser } from "@/types/user.type";
+import usersService from "@/services/users.service";
 
 export const createUserSchema = z
   .object({
@@ -8,7 +9,13 @@ export const createUserSchema = z
       .string("Email is required")
       .trim()
       .min(1, "Email is required")
-      .pipe(z.email("Invalid email address")),
+      .pipe(z.email("Invalid email address"))
+      .refine(
+        async (email) => (await usersService.findByEmail(email)) === null,
+        {
+          message: "Email is already in use. Please choose another one",
+        },
+      ),
     password: z
       .string("Password is required")
       .trim()

@@ -1,11 +1,7 @@
 import bcrypt from "bcrypt";
 import { User } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
-import SafeUser from "@/types/safe-user.type";
-
-type CreateUser = Omit<User, "id">;
-
-type UpdateUser = Partial<Omit<User, "id" | "password">>;
+import { CreateUser, SafeUser, UpdateUser } from "@/types/user.type";
 
 class UsersService {
   async create(user: CreateUser): Promise<SafeUser> {

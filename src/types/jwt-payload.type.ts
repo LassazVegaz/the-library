@@ -1,5 +1,5 @@
-import { User } from "@/generated/prisma/client";
+import { SafeUser } from "./user.type";
 
-type JwtPayload = Pick<User, "id">;
+type JwtPayload = Pick<SafeUser, "id" | "role">;
 
 export default JwtPayload;

@@ -58,6 +58,7 @@ export const deleteAction = async (id: number) => {
 
   try {
     await usersService.delete(id);
+    await authService.signOut();
     revalidatePath("/users");
     deleted = true;
   } catch (error) {

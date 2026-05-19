@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styles from "./FloatingMenu.module.css";
 import authService from "@/services/auth.service";
+import SignoutButton from "./SignoutButton";
 
 export default async function FloatingMenu() {
   const auth = await authService.getAuth();
@@ -21,9 +22,7 @@ export default async function FloatingMenu() {
       <Link href={`/user/${auth.id}`} className={styles.menuItem}>
         Profile
       </Link>
-      <Link href="/auth/signout" className={styles.menuItem}>
-        Sign out
-      </Link>
+      <SignoutButton />
       <div className={styles.icon}>M</div>
     </div>
   );

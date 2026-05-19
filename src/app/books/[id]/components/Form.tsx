@@ -89,29 +89,26 @@ export default function Form(props: Readonly<FormProps>) {
         />
       </FieldsContainer>
 
-      <div className="flex justify-between mt-10">
-        <LinkButton variant="gray" href="/books" disabled={isLoading}>
-          Cancel
-        </LinkButton>
-
-        {props.isAdmin && (
-          <>
-            <Button variant="blue" type="submit" disabled={isLoading}>
-              {props.isNew ? "Add" : "Update"}
+      {props.isAdmin && (
+        <div className="flex justify-between mt-10">
+          <LinkButton variant="gray" href="/books" disabled={isLoading}>
+            Cancel
+          </LinkButton>
+          <Button variant="blue" type="submit" disabled={isLoading}>
+            {props.isNew ? "Add" : "Update"}
+          </Button>
+          {!props.isNew && (
+            <Button
+              variant="red"
+              type="button"
+              onClick={onDelete}
+              disabled={isLoading}
+            >
+              Delete
             </Button>
-            {!props.isNew && (
-              <Button
-                variant="red"
-                type="button"
-                onClick={onDelete}
-                disabled={isLoading}
-              >
-                Delete
-              </Button>
-            )}
-          </>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </form>
   );
 }

@@ -19,7 +19,10 @@ export const InputField = ({
   className,
   ...props
 }: ComponentProps<"input">) => (
-  <input className={twMerge("border p-2 rounded", className)} {...props} />
+  <input
+    className={twMerge("border p-2 rounded read-only:opacity-50", className)}
+    {...props}
+  />
 );
 
 type ButtonProps = ComponentProps<"button"> & {

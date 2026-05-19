@@ -96,11 +96,14 @@ export default function Form(props: Readonly<FormProps>) {
         </>
       )}
 
-      <div className="h-10" />
-
       {props.isNew && (
         <>
-          <Button variant="blue" type="submit" disabled={isLoading}>
+          <Button
+            variant="blue"
+            type="submit"
+            disabled={isLoading}
+            className="mt-10"
+          >
             Create Account
           </Button>
           <p className="text-sm text-center">
@@ -114,7 +117,12 @@ export default function Form(props: Readonly<FormProps>) {
 
       {props.isOwner && (
         <>
-          <Button variant="blue" type="submit" disabled={isLoading}>
+          <Button
+            variant="blue"
+            type="submit"
+            disabled={isLoading}
+            className="mt-10"
+          >
             Update Account
           </Button>
           <Button

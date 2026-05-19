@@ -65,5 +65,5 @@ export const deleteAction = async (id: number) => {
     return serverErrorResponse;
   }
 
-  if (deleted) redirect("/users");
+  if (deleted) redirect("/signin");
 };

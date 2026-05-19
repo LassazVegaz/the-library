@@ -1,6 +1,6 @@
+import { LinkedListItem, ListContainer } from "@/components/List";
 import PageTitle from "@/components/PageTitle";
 import usersService from "@/services/users.service";
-import Link from "next/link";
 
 export default async function UsersPage() {
   const users = await usersService.getAll();
@@ -13,18 +13,15 @@ export default async function UsersPage() {
         <p className="text-center text-gray-500 mt-10">No users found</p>
       )}
 
-      <ul className="mt-10 max-w-md w-full mx-auto flex flex-col gap-4 overflow-y-auto px-5 styled-scrollbar">
+      <ListContainer className="mt-10 max-w-md w-full mx-auto">
         {users.map((user) => (
           <li key={user.id}>
-            <Link
-              href={`users/${user.id}`}
-              className="block border border-gray-300 rounded-md p-2 hover:bg-gray-100 hover:text-black duration-500 cursor-pointer"
-            >
+            <LinkedListItem href={`users/${user.id}`}>
               {user.name}
-            </Link>
+            </LinkedListItem>
           </li>
         ))}
-      </ul>
+      </ListContainer>
     </div>
   );
 }

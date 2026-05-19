@@ -1,7 +1,7 @@
-import Link from "next/link";
 import PageTitle from "@/components/PageTitle";
 import FloatingActionButton from "@/components/FloatingActionButton";
 import booksService from "@/services/books.service";
+import { LinkedListItem, ListContainer } from "@/components/List";
 
 export default async function BooksPage() {
   const books = await booksService.getAll();
@@ -17,18 +17,13 @@ export default async function BooksPage() {
           </p>
         )}
 
-        <ul className="mt-10 max-w-md w-full mx-auto flex flex-col gap-4 overflow-y-auto px-5 styled-scrollbar">
+        <ListContainer className="mt-10 max-w-md w-full mx-auto">
           {books.map((b) => (
             <li key={b.id}>
-              <Link
-                href={`books/${b.id}`}
-                className="block border border-gray-300 rounded-md p-2 hover:bg-gray-100 hover:text-black duration-500 cursor-pointer"
-              >
-                {b.title}
-              </Link>
+              <LinkedListItem href={`books/${b.id}`}>{b.title}</LinkedListItem>
             </li>
           ))}
-        </ul>
+        </ListContainer>
       </div>
 
       <FloatingActionButton href="books/new">+</FloatingActionButton>

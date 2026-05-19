@@ -24,7 +24,7 @@ export const signInAction = async (form: FormData) => {
     }
 
     if (validCredentials) {
-      redirect("/books");
+      redirect("/");
     } else {
       return false;
     }

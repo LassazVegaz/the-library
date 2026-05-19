@@ -1,10 +1,7 @@
-import Link from "next/link";
+import authService from "@/services/auth.service";
+import { redirect, RedirectType } from "next/navigation";
 
-export default function Home() {
-  return (
-    <>
-      <Link href="/books">Go to Books</Link> <br />
-      <Link href="/users">Go to Users</Link>
-    </>
-  );
+export default async function Home() {
+  if (await authService.getAuth()) redirect("/books", RedirectType.replace);
+  else redirect("/signin", RedirectType.replace);
 }

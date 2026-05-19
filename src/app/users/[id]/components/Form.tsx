@@ -99,17 +99,17 @@ export default function Form(props: Readonly<FormProps>) {
         <Button variant="blue" type="submit" disabled={isLoading}>
           {props.isNew ? "Create Account" : "Update"}
         </Button>
-        {!props.isNew && (
-          <Button
-            variant="red"
-            type="button"
-            onClick={onDelete}
-            disabled={isLoading}
-          >
-            Delete
-          </Button>
-        )}
       </div>
+      {!props.isNew && (
+        <Button
+          variant="red"
+          type="button"
+          onClick={onDelete}
+          disabled={isLoading}
+        >
+          Delete Account
+        </Button>
+      )}
     </form>
   );
 }

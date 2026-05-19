@@ -14,14 +14,15 @@ export default async function UserPage(
 
   const auth = await authService.getAuth();
 
-  if (isNew && auth) notFound();
-
   let user: SafeUser | null = null;
 
-  if (!isNew) {
+  if (isNew && auth) notFound();
+  else if (auth) {
     const userId = Number(id);
-    if (Number.isNaN(userId)) notFound();
+    if (Number.isNaN(userId) || (auth.role === "user" && auth.id !== userId))
+      notFound();
     user = await usersService.findById(userId);
+    if (!user) notFound();
   }
 
   return (

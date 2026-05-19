@@ -13,10 +13,12 @@ import {
 import { SafeUser } from "@/types/user.type";
 import { MouseEventHandler, SubmitEventHandler, useState } from "react";
 import { createAction, deleteAction, updateAction } from "../actions";
+import Role from "@/types/role.type";
 
 type FormProps = {
   isNew: boolean;
   user: SafeUser | null;
+  role?: Role;
 };
 
 export default function Form(props: Readonly<FormProps>) {
@@ -67,6 +69,7 @@ export default function Form(props: Readonly<FormProps>) {
           name="name"
           required
           defaultValue={props.user?.name || ""}
+          readOnly={props.role === "admin"}
         />
       </FieldsContainer>
       <FieldsContainer>

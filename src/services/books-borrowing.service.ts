@@ -45,11 +45,11 @@ class BooksBorrowingService {
   async remainingCopies(bookId: number) {
     const res = await prisma.$queryRaw<RemainingCopiesQR[]>`
 SELECT
-    (b.copies - COUNT(CASE WHEN br.returnedOn IS NULL THEN 1 END)) AS remaining_copies
+    (b.copies - COUNT(CASE WHEN br."returnedOn" IS NULL THEN 1 END)) AS remaining_copies
 FROM 
     "Book" b
 LEFT JOIN 
-    "Borrowing" br ON b.id = br.bookId
+    "Borrowing" br ON b.id = br."bookId"
 WHERE 
     b.id = ${bookId}
 GROUP BY 

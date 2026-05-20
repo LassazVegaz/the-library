@@ -2,7 +2,7 @@ import { Button } from "@/components/FormComponents";
 import PageTitle from "@/components/PageTitle";
 import SubTitle from "@/components/SubTitle";
 import SelectUserButton from "./components/SelectUserButton";
-import { ListContainer, ListItem } from "@/components/List";
+import { ButtonListItem, ListContainer } from "@/components/List";
 import authService from "@/services/auth.service";
 import { notFound } from "next/navigation";
 import usersService from "@/services/users.service";
@@ -68,13 +68,15 @@ export default async function LendBookPage(
           <p className="text-dimmed w-100 text-center">No users found</p>
         )}
 
-        <ListContainer>
-          {users.map((u) => (
-            <ListItem key={u.id} className="w-100">
-              {u.name}
-            </ListItem>
-          ))}
-        </ListContainer>
+        <form method="dialog">
+          <ListContainer>
+            {users.map((u) => (
+              <ButtonListItem key={u.id} value={u.id} className="w-100">
+                {u.name}
+              </ButtonListItem>
+            ))}
+          </ListContainer>
+        </form>
       </dialog>
     </>
   );

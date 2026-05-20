@@ -1,4 +1,3 @@
-import { Button } from "@/components/FormComponents";
 import PageTitle from "@/components/PageTitle";
 import SubTitle from "@/components/SubTitle";
 import SelectUserButton from "./components/SelectUserButton";
@@ -8,6 +7,7 @@ import { notFound } from "next/navigation";
 import usersService from "@/services/users.service";
 import booksService from "@/services/books.service";
 import booksBorrowingService from "@/services/books-borrowing.service";
+import LendButton from "./components/LendButton";
 
 const getBook = async (id: string) => {
   const idN = Number.parseInt(id);
@@ -95,8 +95,10 @@ export default async function LendBookPage(
         </div>
 
         <div className="col-[span_2] flex justify-center">
-          <Button
+          <LendButton
             variant="blue"
+            userId={userId}
+            bookId={book.id}
             disabled={
               availableCopies === 0 ||
               user === undefined ||
@@ -104,7 +106,7 @@ export default async function LendBookPage(
             }
           >
             Lend
-          </Button>
+          </LendButton>
         </div>
       </div>
 

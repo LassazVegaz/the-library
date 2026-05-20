@@ -7,8 +7,8 @@ export const handleServerError = (error: unknown) => {
   ) {
     throw error; // Rethrow the redirect error to be handled by Next.js
   } else {
-    console.error("An error occurred while submitting the form:", error);
-    alert("An error occurred while submitting the form. Please try again.");
+    console.error("A server error:", error);
+    alert("An error occurred. Please try again.");
   }
 };
 

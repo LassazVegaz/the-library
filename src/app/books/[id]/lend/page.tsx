@@ -6,13 +6,28 @@ import { ListContainer, ListItem } from "@/components/List";
 import authService from "@/services/auth.service";
 import { notFound } from "next/navigation";
 import usersService from "@/services/users.service";
+import booksService from "@/services/books.service";
 
-export default async function LendBookPage() {
+const getBook = async (id: string) => {
+  const idN = Number.parseInt(id);
+  if (Number.isNaN(idN)) return null;
+
+  return await booksService.findById(idN);
+};
+
+export default async function LendBookPage(
+  props: Readonly<PageProps<"/books/[id]/lend">>,
+) {
   if (!authService.is("admin")) notFound();
 
-  const dialogId = "select-user-dialog";
+  const params = await props.params;
+
+  const book = await getBook(params.id);
+  if (!book) notFound();
 
   const users = await usersService.getAll();
+
+  const dialogId = "select-user-dialog";
 
   return (
     <>
@@ -22,7 +37,7 @@ export default async function LendBookPage() {
         <div className="px-10 border-r border-amber-100">
           <SubTitle>Book information</SubTitle>
 
-          <div className="mt-10">Title: Harry Porter 1</div>
+          <div className="mt-10">Title: {book.title}</div>
         </div>
 
         <div className="px-10 grid grid-rows-[auto_1fr_auto]">

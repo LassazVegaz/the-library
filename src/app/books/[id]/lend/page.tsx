@@ -15,6 +15,16 @@ const getBook = async (id: string) => {
   return await booksService.findById(idN);
 };
 
+const getUserId = (
+  searchParams: Awaited<PageProps<"/books/[id]/lend">["searchParams"]>,
+) => {
+  const userIdStr = searchParams["userId"];
+  if (typeof userIdStr !== "string") return null;
+
+  const userId = Number.parseInt(userIdStr);
+  return Number.isNaN(userId) ? null : userId;
+};
+
 export default async function LendBookPage(
   props: Readonly<PageProps<"/books/[id]/lend">>,
 ) {
@@ -26,6 +36,10 @@ export default async function LendBookPage(
   if (!book) notFound();
 
   const users = await usersService.getAll();
+
+  const searchParams = await props.searchParams;
+  const userId = getUserId(searchParams);
+  const user = userId ? users.find((u) => u.id === userId) : undefined;
 
   const dialogId = "select-user-dialog";
 
@@ -43,10 +57,18 @@ export default async function LendBookPage(
         <div className="px-10 grid grid-rows-[auto_1fr_auto]">
           <SubTitle>User information</SubTitle>
 
-          <div className="mt-10">
-            <div>Name: John Done</div>
-            <div>Email: johndoen@john.com</div>
-          </div>
+          {user ? (
+            <div className="mt-10">
+              <div>Name: {user.name}</div>
+              <div>Email: {user.email}</div>
+            </div>
+          ) : (
+            <p className="mt-10 text-dimmed text-center text-sm">
+              {searchParams["userId"] === undefined
+                ? "Please select a user"
+                : "User not found"}
+            </p>
+          )}
 
           <div className="flex justify-center">
             <SelectUserButton dialogId={dialogId} />

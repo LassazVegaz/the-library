@@ -36,6 +36,9 @@ export default async function LendBookPage(
   const book = await getBook(params.id);
   if (!book) notFound();
 
+  const lendedCopies = await booksBorrowingService.lendedCopies(book.id);
+  const availableCopies = book.copies - lendedCopies;
+
   const users = await usersService.getAll();
 
   const searchParams = await props.searchParams;
@@ -60,6 +63,7 @@ export default async function LendBookPage(
           <div className="mt-10">
             <div>Title: {book.title}</div>
             <div>Number of copies: {book.copies}</div>
+            <div>Available copies: {availableCopies}</div>
           </div>
         </div>
 
@@ -94,7 +98,9 @@ export default async function LendBookPage(
           <Button
             variant="blue"
             disabled={
-              book.copies === 0 || user === undefined || borrowedMax === true
+              availableCopies === 0 ||
+              user === undefined ||
+              borrowedMax === true
             }
           >
             Lend

@@ -108,7 +108,6 @@ export default function Form(props: Readonly<FormProps>) {
           <Label htmlFor="title">Available copies</Label>
           <InputField
             type="number"
-            name="copies"
             required
             value={props.availableCopies}
             readOnly

@@ -24,7 +24,7 @@ export default function LendButton({
 
     setIsLoading(true);
     try {
-      await lendAction(userId, bookId);
+      await lendAction({ userId, bookId });
       alert("Book was successfully lent");
       router.push("/book");
     } catch (err) {

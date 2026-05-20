@@ -3,11 +3,16 @@ import PageTitle from "@/components/PageTitle";
 import SubTitle from "@/components/SubTitle";
 import SelectUserButton from "./components/SelectUserButton";
 import { ListContainer, ListItem } from "@/components/List";
+import authService from "@/services/auth.service";
+import { notFound } from "next/navigation";
+import usersService from "@/services/users.service";
 
-export default function LendBookPage() {
+export default async function LendBookPage() {
+  if (!authService.is("admin")) notFound();
+
   const dialogId = "select-user-dialog";
 
-  const users = [] as string[];
+  const users = await usersService.getAll();
 
   return (
     <>
@@ -50,8 +55,8 @@ export default function LendBookPage() {
 
         <ListContainer>
           {users.map((u) => (
-            <ListItem key={u} className="w-100">
-              {u}
+            <ListItem key={u.id} className="w-100">
+              {u.name}
             </ListItem>
           ))}
         </ListContainer>

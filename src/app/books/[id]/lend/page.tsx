@@ -2,9 +2,12 @@ import { Button } from "@/components/FormComponents";
 import PageTitle from "@/components/PageTitle";
 import SubTitle from "@/components/SubTitle";
 import SelectUserButton from "./components/SelectUserButton";
+import { ListContainer, ListItem } from "@/components/List";
 
 export default function LendBookPage() {
   const dialogId = "select-user-dialog";
+
+  const users = [] as string[];
 
   return (
     <>
@@ -35,7 +38,24 @@ export default function LendBookPage() {
         </div>
       </div>
 
-      <dialog id={dialogId}>Hello World</dialog>
+      <dialog
+        id={dialogId}
+        className="bg-gray-800 p-page-gutter rounded-xl grid-rows-[auto_1fr] gap-10"
+      >
+        <SubTitle>Select a User</SubTitle>
+
+        {users.length === 0 && (
+          <p className="text-dimmed w-100 text-center">No users found</p>
+        )}
+
+        <ListContainer>
+          {users.map((u) => (
+            <ListItem key={u} className="w-100">
+              {u}
+            </ListItem>
+          ))}
+        </ListContainer>
+      </dialog>
     </>
   );
 }

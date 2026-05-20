@@ -1,9 +1,9 @@
 import { Book } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 
-type UpdateBook = Partial<Pick<Book, "title">>;
+type UpdateBook = Partial<Pick<Book, "title" | "copies">>;
 
-type CreateBook = Pick<Book, "title">;
+type CreateBook = Pick<Book, "title" | "copies">;
 
 class BooksService {
   async create(book: CreateBook) {

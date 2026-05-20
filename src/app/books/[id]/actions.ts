@@ -8,6 +8,10 @@ import * as z from "zod";
 
 const schema = z.object({
   title: z.string().trim().min(1, "Title is required"),
+  copies: z.coerce
+    .number("Invalid number of copies")
+    .int("Number of copies must be a whole number")
+    .nonnegative("Number of coppies cannot be a negative number"),
 });
 
 export const createAction = async (form: FormData) => {

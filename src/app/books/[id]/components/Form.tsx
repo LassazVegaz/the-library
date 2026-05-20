@@ -92,6 +92,16 @@ export default function Form(props: Readonly<FormProps>) {
           readOnly={!props.isAdmin}
         />
       </FieldsContainer>
+      <FieldsContainer>
+        <Label htmlFor="title">Number of copies</Label>
+        <InputField
+          type="number"
+          name="copies"
+          required
+          defaultValue={props.book?.copies}
+          readOnly={!props.isAdmin}
+        />
+      </FieldsContainer>
 
       {props.isAdmin && (
         <>
@@ -113,7 +123,11 @@ export default function Form(props: Readonly<FormProps>) {
               </Button>
             )}
           </div>
-          <LinkButton href={`${props.book?.id}/lend`} variant="gray">
+          <LinkButton
+            href={`${props.book?.id}/lend`}
+            variant="gray"
+            disabled={props.book?.copies === 0}
+          >
             Lend book
           </LinkButton>
         </>

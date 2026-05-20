@@ -4,6 +4,7 @@ import { Book } from "@/generated/prisma/client";
 import booksService from "@/services/books.service";
 import { notFound } from "next/navigation";
 import authService from "@/services/auth.service";
+import booksBorrowingService from "@/services/books-borrowing.service";
 
 export default async function BookPage(
   props: Readonly<PageProps<"/books/[id]">>,
@@ -16,6 +17,7 @@ export default async function BookPage(
   const isNew = id.toLowerCase() === "new";
 
   let book: Book | null = null;
+  let availableCopies: number | undefined;
 
   if (isNew) {
     if (auth.role !== "admin") notFound();
@@ -24,6 +26,8 @@ export default async function BookPage(
     if (Number.isNaN(bookId)) notFound();
     book = await booksService.findById(bookId);
     if (!book) notFound();
+    const lentCopies = await booksBorrowingService.lendedCopies(bookId);
+    availableCopies = book.copies - lentCopies;
   }
 
   return (
@@ -31,7 +35,12 @@ export default async function BookPage(
       <PageTitle>{isNew ? "Create a New Book" : "Update Book"}</PageTitle>
 
       <div className="flex justify-center items-center">
-        <Form isNew={isNew} book={book} isAdmin={auth.role === "admin"} />
+        <Form
+          isNew={isNew}
+          book={book}
+          isAdmin={auth.role === "admin"}
+          availableCopies={availableCopies}
+        />
       </div>
     </div>
   );

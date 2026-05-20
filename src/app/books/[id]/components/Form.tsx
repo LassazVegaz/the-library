@@ -14,6 +14,7 @@ type FormProps = {
   isNew: boolean;
   book: Book | null;
   isAdmin: boolean;
+  availableCopies?: number;
 };
 
 const handleServerError = (error: unknown) => {
@@ -102,6 +103,18 @@ export default function Form(props: Readonly<FormProps>) {
           readOnly={!props.isAdmin}
         />
       </FieldsContainer>
+      {!props.isNew && (
+        <FieldsContainer>
+          <Label htmlFor="title">Available copies</Label>
+          <InputField
+            type="number"
+            name="copies"
+            required
+            value={props.availableCopies}
+            readOnly
+          />
+        </FieldsContainer>
+      )}
 
       {props.isAdmin && (
         <>

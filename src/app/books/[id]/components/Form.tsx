@@ -78,7 +78,10 @@ export default function Form(props: Readonly<FormProps>) {
   };
 
   return (
-    <form className="border p-4 rounded" onSubmit={onSubmit}>
+    <form
+      className="border p-4 rounded flex flex-col gap-4"
+      onSubmit={onSubmit}
+    >
       <FieldsContainer>
         <Label htmlFor="title">Title</Label>
         <InputField
@@ -91,24 +94,29 @@ export default function Form(props: Readonly<FormProps>) {
       </FieldsContainer>
 
       {props.isAdmin && (
-        <div className="flex justify-between mt-10">
-          <LinkButton variant="gray" href="/books" disabled={isLoading}>
-            Cancel
-          </LinkButton>
-          <Button variant="blue" type="submit" disabled={isLoading}>
-            {props.isNew ? "Add" : "Update"}
-          </Button>
-          {!props.isNew && (
-            <Button
-              variant="red"
-              type="button"
-              onClick={onDelete}
-              disabled={isLoading}
-            >
-              Delete
+        <>
+          <div className="flex justify-between mt-10">
+            <LinkButton variant="gray" href="/books" disabled={isLoading}>
+              Cancel
+            </LinkButton>
+            <Button variant="blue" type="submit" disabled={isLoading}>
+              {props.isNew ? "Add" : "Update"}
             </Button>
-          )}
-        </div>
+            {!props.isNew && (
+              <Button
+                variant="red"
+                type="button"
+                onClick={onDelete}
+                disabled={isLoading}
+              >
+                Delete
+              </Button>
+            )}
+          </div>
+          <LinkButton href={`${props.book?.id}/lend`} variant="gray">
+            Lend book
+          </LinkButton>
+        </>
       )}
     </form>
   );

@@ -15,6 +15,7 @@ datasource db {
 model Book {
   id    Int    @id @default(autoincrement())
   title String
+  users User[]
 }
 
 model User {
@@ -24,6 +25,7 @@ model User {
   name     String
   roleLink Role   @relation(fields: [role], references: [name])
   role     String @map("role")
+  books    Book[]
 }
 
 model Role {

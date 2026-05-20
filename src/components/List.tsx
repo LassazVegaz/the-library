@@ -25,6 +25,19 @@ export const ListItem = ({ className, ...props }: ComponentProps<"li">) => (
   />
 );
 
+export const ButtonListItem = ({
+  className,
+  ...props
+}: ComponentProps<"button">) => (
+  <button
+    className={twMerge(
+      "block border border-gray-300 rounded-md p-2 hover:bg-gray-100 hover:text-black duration-500 cursor-pointer",
+      className,
+    )}
+    {...props}
+  />
+);
+
 /**
  * List item for linking
  */

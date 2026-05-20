@@ -138,7 +138,7 @@ export default function Form(props: Readonly<FormProps>) {
           <LinkButton
             href={`${props.book?.id}/lend`}
             variant="gray"
-            disabled={props.book?.copies === 0}
+            disabled={props.availableCopies === 0}
           >
             Lend book
           </LinkButton>

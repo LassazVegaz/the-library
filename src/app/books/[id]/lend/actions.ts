@@ -10,6 +10,7 @@ type LendActionParams = {
 
 export const lendAction = async (params: LendActionParams) => {
   if (!(await authService.is("admin"))) unauthorized();
+  console.log("params", params);
 
-  await booksBorrowingService.lend(params.userId, params.bookId);
+  await booksBorrowingService.lend(params.bookId, params.userId);
 };

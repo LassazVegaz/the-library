@@ -7,6 +7,7 @@ import authService from "@/services/auth.service";
 import { notFound } from "next/navigation";
 import usersService from "@/services/users.service";
 import booksService from "@/services/books.service";
+import booksBorrowingService from "@/services/books-borrowing.service";
 
 const getBook = async (id: string) => {
   const idN = Number.parseInt(id);
@@ -41,6 +42,11 @@ export default async function LendBookPage(
   const userId = getUserId(searchParams);
   const user = userId ? users.find((u) => u.id === userId) : undefined;
 
+  const borrowedMax =
+    userId === null || user === undefined
+      ? undefined
+      : (await booksBorrowingService.borrowedCount(userId)) > 0;
+
   const dialogId = "select-user-dialog";
 
   return (
@@ -64,6 +70,12 @@ export default async function LendBookPage(
             <div className="mt-10">
               <div>Name: {user.name}</div>
               <div>Email: {user.email}</div>
+
+              {borrowedMax && (
+                <p className="text-red-300 mt-5">
+                  This user has borrowed maximum allowed number of books
+                </p>
+              )}
             </div>
           ) : (
             <p className="mt-10 text-dimmed text-center text-sm">
@@ -81,7 +93,9 @@ export default async function LendBookPage(
         <div className="col-[span_2] flex justify-center">
           <Button
             variant="blue"
-            disabled={book.copies === 0 || user === undefined}
+            disabled={
+              book.copies === 0 || user === undefined || borrowedMax === true
+            }
           >
             Lend
           </Button>

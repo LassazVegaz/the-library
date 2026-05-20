@@ -15,6 +15,16 @@ export const ListContainer = ({
   />
 );
 
+export const ListItem = ({ className, ...props }: ComponentProps<"li">) => (
+  <li
+    className={twMerge(
+      "block border border-gray-300 rounded-md p-2 hover:bg-gray-100 hover:text-black duration-500 cursor-pointer",
+      className,
+    )}
+    {...props}
+  />
+);
+
 /**
  * List item for linking
  */

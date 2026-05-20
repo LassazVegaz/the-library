@@ -51,7 +51,10 @@ export default async function LendBookPage(
         <div className="px-10 border-r border-amber-100">
           <SubTitle>Book information</SubTitle>
 
-          <div className="mt-10">Title: {book.title}</div>
+          <div className="mt-10">
+            <div>Title: {book.title}</div>
+            <div>Number of copies: {book.copies}</div>
+          </div>
         </div>
 
         <div className="px-10 grid grid-rows-[auto_1fr_auto]">
@@ -76,7 +79,12 @@ export default async function LendBookPage(
         </div>
 
         <div className="col-[span_2] flex justify-center">
-          <Button variant="blue">Lend</Button>
+          <Button
+            variant="blue"
+            disabled={book.copies === 0 || user === undefined}
+          >
+            Lend
+          </Button>
         </div>
       </div>
 
